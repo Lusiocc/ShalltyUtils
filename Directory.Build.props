@@ -1,0 +1,73 @@
+<Project>
+	<PropertyGroup>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+		<OutputPath>..\bin\build\$(MSBuildProjectName)\</OutputPath>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+
+		<OutputType>Library</OutputType>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+		<Deterministic>true</Deterministic>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+		<FileAlignment>512</FileAlignment>
+
+		<GameType>$([System.Text.RegularExpressions.Regex]::Match($(MSBuildProjectName), '[^\.]*$'))</GameType>
+	</PropertyGroup>
+
+	<!--Timeline, the pose editor and NodesConstraints are referenced straight out of a sibling
+	    HSPlugins checkout. Override with -p:HSPluginsDir=<path> or an HSPluginsDir env var.-->
+	<PropertyGroup>
+		<HSPluginsDir Condition="'$(HSPluginsDir)' == ''">$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)..\HSPlugins'))</HSPluginsDir>
+		<HSPluginsBin>$([MSBuild]::NormalizeDirectory('$(HSPluginsDir)bin\build'))</HSPluginsBin>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildProjectName.IndexOf(.))' != '-1'">
+		<DefineConstants>$(MSBuildProjectName.Replace('.',';'))</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch(';$(DefineConstants);', ';HS2;'))">
+		<PackageReference Include="ExtensibleSaveFormat.HoneySelect2" Version="21.0" />
+		<PackageReference Include="IllusionLibs.HoneySelect2.AllPackages" Version="*" />
+	</ItemGroup>
+	<ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch(';$(DefineConstants);', ';KK;'))">
+		<PackageReference Include="ExtensibleSaveFormat.Koikatu" Version="21.0" />
+		<PackageReference Include="IllusionLibs.Koikatu.AllPackages" Version="*" />
+		<PackageReference Include="KoikatuCompatibilityAnalyzer" Version="*" />
+	</ItemGroup>
+	<ItemGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch(';$(DefineConstants);', ';KKS;'))">
+		<PackageReference Include="ExtensibleSaveFormat.KoikatsuSunshine" Version="21.0" />
+		<PackageReference Include="IllusionLibs.KoikatsuSunshine.AllPackages" Version="*" />
+		<PackageReference Include="IllusionLibs.Koikatu.Vectrosity" Version="*" />
+	</ItemGroup>
+
+	<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch(';$(DefineConstants);', ';HS2;'))">
+		<DefineConstants>$(DefineConstants);BEPINEX;HONEYSELECT2</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch(';$(DefineConstants);', ';KK;'))">
+		<DefineConstants>$(DefineConstants);BEPINEX;KOIKATSU</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch(';$(DefineConstants);', ';KKS;'))">
+		<DefineConstants>$(DefineConstants);BEPINEX;KOIKATSU;SUNSHINE</DefineConstants>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+		<PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="all" />
+	</ItemGroup>
+
+	<Target Name="CheckHSPlugins" BeforeTargets="ResolveAssemblyReferences" Condition="'$(MSBuildProjectExtension)' == '.csproj'">
+		<Error Condition="!Exists('$(HSPluginsBin)Timeline.$(GameType)\Timeline.dll')"
+		       Text="Missing $(HSPluginsBin)Timeline.$(GameType)\Timeline.dll - build Timeline.$(GameType), PoseEditor.$(GameType) and NodesConstraints.$(GameType) in HSPlugins first, or point -p:HSPluginsDir=&lt;path&gt; at your checkout." />
+	</Target>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Delete Files="$(OutputPath)\$(MSBuildProjectName).deps.json" />
+	</Target>
+
+	<Target Name="SkipAllRefs" AfterTargets="ResolveReferences">
+		<ItemGroup>
+			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" />
+		</ItemGroup>
+	</Target>
+</Project>

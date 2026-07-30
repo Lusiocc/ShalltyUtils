@@ -261,7 +261,7 @@ namespace ShalltyUtils
             GUILayout.EndVertical();
             GUILayout.EndHorizontal();
 
-            windowFoldersConstraintsRigsRect = IMGUIUtils.DragResizeEatWindow(_uniqueId + 40, windowFoldersConstraintsRigsRect);
+            windowFoldersConstraintsRigsRect = IMGUIUtils.DragResizeEatWindow(ShalltyUtils._uniqueId + 40, windowFoldersConstraintsRigsRect);
         }
 
 
@@ -826,7 +826,7 @@ namespace ShalltyUtils
 
             UpdatePickerPages();
 
-            _self.ExecuteDelayed2(() =>
+            ShalltyUtils._self.ExecuteDelayed2(() =>
             {
                 UpdateAllColors();
             });

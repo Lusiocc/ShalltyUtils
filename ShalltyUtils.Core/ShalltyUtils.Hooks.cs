@@ -407,15 +407,16 @@ namespace ShalltyUtils
         }
         */
 
-        [HarmonyPrefix, HarmonyPatch(typeof(Timeline.Timeline), nameof(Timeline.Timeline.MoveKeyframe))]
-        static void MoveKeyframePrefix(Keyframe keyframe, float destinationTime, out float __state)
+        [HarmonyPrefix, HarmonyPatch(typeof(Timeline.Timeline), nameof(Timeline.Timeline.TryMoveKeyframe))]
+        static void TryMoveKeyframePrefix(Keyframe keyframe, float destinationTime, out float __state)
         {
-            __state = keyframe.parent.keyframes.Keys[keyframe.parent.keyframes.IndexOfValue(keyframe)];
+            int index = keyframe.parent.keyframes.IndexOfValue(keyframe);
+            __state = index < 0 ? float.NaN : keyframe.parent.keyframes.Keys[index];
         }
-        [HarmonyPostfix, HarmonyPatch(typeof(Timeline.Timeline), nameof(Timeline.Timeline.MoveKeyframe))]
-        static void MoveKeyframePostfix(Keyframe keyframe, float destinationTime, float __state)
+        [HarmonyPostfix, HarmonyPatch(typeof(Timeline.Timeline), nameof(Timeline.Timeline.TryMoveKeyframe))]
+        static void TryMoveKeyframePostfix(Keyframe keyframe, float destinationTime, bool __result, float __state)
         {
-            if (undoRedoTimeline.Value)
+            if (__result && undoRedoTimeline.Value && !float.IsNaN(__state))
                 Singleton<UndoRedoManager>.Instance.Do(new UndoRedoCommands.MoveKeyframeCommand(keyframe, destinationTime, __state));
         }
         [HarmonyPrefix, HarmonyPatch(typeof(Timeline.Timeline), nameof(Timeline.Timeline.AddKeyframe))]
@@ -426,7 +427,7 @@ namespace ShalltyUtils
         [HarmonyPostfix, HarmonyPatch(typeof(Timeline.Timeline), nameof(Timeline.Timeline.AddKeyframe))]
         static void AddKeyframePostfix(Timeline.Interpolable interpolable, float time, int __state)
         {
-            if (undoRedoTimeline.Value)
+            if (undoRedoTimeline.Value && interpolable.keyframes.Count != __state)
                 Singleton<UndoRedoManager>.Instance.Do(new UndoRedoCommands.AddKeyframeCommand(interpolable, time, __state));
         }
 

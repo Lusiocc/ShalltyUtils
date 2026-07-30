@@ -149,31 +149,37 @@ namespace ShalltyUtils
             public void Undo()
             {
                 _timeline._selectedKeyframes.Clear();
-                int index = keyframe.parent.keyframes.IndexOfValue(keyframe);
-                if (index != -1)
-                {
-                    keyframe.parent.keyframes.RemoveAt(keyframe.parent.keyframes.IndexOfValue(keyframe));
-                    keyframe.parent.keyframes.Add(oldTime, keyframe);
-                    int i = _timeline._selectedKeyframes.FindIndex(k => k.Value == keyframe);
-                    if (i != -1)
-                        _timeline._selectedKeyframes[i] = new KeyValuePair<float, Keyframe>(oldTime, keyframe);
-                    _timeline.UpdateGrid();
-                }
+                MoveTo(oldTime);
             }
 
             public void Redo()
             {
                 _timeline._selectedKeyframes.Clear();
-                int index = keyframe.parent.keyframes.IndexOfValue(keyframe);
-                if (index != -1)
+                MoveTo(destinationTime);
+            }
+
+            private void MoveTo(float time)
+            {
+                SortedList<float, Keyframe> keyframes = keyframe.parent.keyframes;
+                int index = keyframes.IndexOfValue(keyframe);
+                if (index == -1)
+                    return;
+
+                for (int i = 0; i < keyframes.Count; i++)
                 {
-                    keyframe.parent.keyframes.RemoveAt(index);
-                    keyframe.parent.keyframes.Add(destinationTime, keyframe);
-                    int y = _timeline._selectedKeyframes.FindIndex(k => k.Value == keyframe);
-                    if (y != -1)
-                        _timeline._selectedKeyframes[y] = new KeyValuePair<float, Keyframe>(destinationTime, keyframe);
-                    _timeline.UpdateGrid();
+                    if (i != index && Mathf.Approximately(keyframes.Keys[i], time))
+                    {
+                        ShalltyUtils.Logger.LogMessage("Can't move keyframe back to " + time + ": another keyframe is already there");
+                        return;
+                    }
                 }
+
+                keyframes.RemoveAt(index);
+                keyframes.Add(time, keyframe);
+                int selected = _timeline._selectedKeyframes.FindIndex(k => k.Value == keyframe);
+                if (selected != -1)
+                    _timeline._selectedKeyframes[selected] = new KeyValuePair<float, Keyframe>(time, keyframe);
+                _timeline.UpdateGrid();
             }
         }
 

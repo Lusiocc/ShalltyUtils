@@ -454,7 +454,7 @@ namespace ShalltyUtils
 
                                 keyframesToSelect.Add(new KeyValuePair<float, Keyframe>(time, allKeyframes[pair.Key].Value));
                                 
-                                //_timeline.MoveKeyframe(allKeyframes[pair.Key].Value, time);
+                                //_timeline.TryMoveKeyframe(allKeyframes[pair.Key].Value, time);
 
                                 //int selectIndex = _timeline._selectedKeyframes.FindIndex(k => k.Value == allKeyframes[pair.Key].Value);
                                 //_timeline._selectedKeyframes[selectIndex] = new KeyValuePair<float, Keyframe>(time, allKeyframes[pair.Key].Value);

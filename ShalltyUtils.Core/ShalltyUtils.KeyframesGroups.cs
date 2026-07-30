@@ -29,6 +29,15 @@ namespace ShalltyUtils
         public static List<Group> allKeyframeGroups = new List<Group>();
         public static Group selectedKeyframeGroup;
 
+        private static void DrawColorButton(string label, Color color, float height, System.Action onClick)
+        {
+            Color previous = GUI.backgroundColor;
+            GUI.backgroundColor = color;
+            if (GUILayout.Button(label, GUILayout.Height(height)))
+                onClick();
+            GUI.backgroundColor = previous;
+        }
+
         public class Group
         {
             public string name = "Keyframe Group";
@@ -200,7 +209,7 @@ namespace ShalltyUtils
                 selectedKeyframeGroup.color = x;
                 UpdateGroupKeyframesLines();
 
-            }, false, false, false, 20f);
+            }, false, false, false);
 
             GUILayout.Space(15f);
 
@@ -242,7 +251,7 @@ namespace ShalltyUtils
                 
                 GUILayout.BeginVertical(GUI.skin.box);
 
-                IMGUIExtensions.DrawColorButton(group.name + " (" + group.keyframes.Count + ")", group.color, 40f, () =>
+                DrawColorButton(group.name + " (" + group.keyframes.Count + ")", group.color, 40f, () =>
                 {
                     selectedKeyframeGroup = group;
                     group.CleanRemovedKeyframes();
@@ -387,7 +396,7 @@ namespace ShalltyUtils
             string data = (string)pluginData.data["keyframesGroupsData"];
             if (data.IsNullOrEmpty()) return;
 
-            _self.ExecuteDelayed2(() =>
+            ShalltyUtils._self.ExecuteDelayed2(() =>
             {
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(data);

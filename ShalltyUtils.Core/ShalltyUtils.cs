@@ -35,7 +35,7 @@ using AIChara;
 namespace ShalltyUtils
 {
     [BepInPlugin(GUID, PluginName, Version)]
-    [BepInProcess(KK_Plugins.Constants.StudioProcessName)]
+    [BepInProcess(StudioProcessName)]
     [BepInDependency(KKAPI.KoikatuAPI.GUID, KKAPI.KoikatuAPI.VersionConst)]
     [BepInDependency(Timeline.Timeline.GUID, Timeline.Timeline.Version)]
     [BepInDependency(NodesConstraints.NodesConstraints.GUID, NodesConstraints.NodesConstraints.Version)]
@@ -47,10 +47,16 @@ namespace ShalltyUtils
         public const string PluginName = "Shallty Utils";
 #if KK
         public const string PluginNameInternal = "KK_ShalltyUtils";
+        public const string GameName = "Koikatsu";
+        public const string StudioProcessName = "CharaStudio";
 #elif KKS
         public const string PluginNameInternal = "KKS_ShalltyUtils";
+        public const string GameName = "Koikatsu Sunshine";
+        public const string StudioProcessName = "CharaStudio";
 #elif HS2
         public const string PluginNameInternal = "HS2_ShalltyUtils";
+        public const string GameName = "Honey Select 2";
+        public const string StudioProcessName = "StudioNEOV2";
 #endif
         public const string Version = "1.3";
         public const int _uniqueId = ('S' << 24) | ('U' << 16) | ('T' << 8);

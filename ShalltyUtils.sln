@@ -1,0 +1,70 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShalltyUtils.HS2", "ShalltyUtils.HS2\ShalltyUtils.HS2.csproj", "{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShalltyUtils.KK", "ShalltyUtils.KK\ShalltyUtils.KK.csproj", "{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShalltyUtils.KKS", "ShalltyUtils.KKS\ShalltyUtils.KKS.csproj", "{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ShalltyUtils.Core", "ShalltyUtils.Core\ShalltyUtils.Core.shproj", "{628F4ED7-33DF-4359-BC62-208410823EBD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Debug|x64.Build.0 = Debug|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Debug|x86.Build.0 = Debug|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Release|x64.ActiveCfg = Release|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Release|x64.Build.0 = Release|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Release|x86.ActiveCfg = Release|Any CPU
+		{E3A703B4-09FA-4D5B-A555-6DD57026E9DC}.Release|x86.Build.0 = Release|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Debug|x64.Build.0 = Debug|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Debug|x86.Build.0 = Debug|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Release|x64.ActiveCfg = Release|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Release|x64.Build.0 = Release|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Release|x86.ActiveCfg = Release|Any CPU
+		{4A8ACAAF-F6D5-4163-B517-B6DD7FC01D0A}.Release|x86.Build.0 = Release|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Debug|x64.Build.0 = Debug|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Debug|x86.Build.0 = Debug|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Release|x64.ActiveCfg = Release|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Release|x64.Build.0 = Release|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Release|x86.ActiveCfg = Release|Any CPU
+		{2FD419B4-2F40-4ECE-B9BB-D1CBF4340D56}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ShalltyUtils.Core\ShalltyUtils.Core.projitems*{628f4ed7-33df-4359-bc62-208410823ebd}*SharedItemsImports = 13
+		ShalltyUtils.Core\ShalltyUtils.Core.projitems*{e3a703b4-09fa-4d5b-a555-6dd57026e9dc}*SharedItemsImports = 5
+		ShalltyUtils.Core\ShalltyUtils.Core.projitems*{4a8acaaf-f6d5-4163-b517-b6dd7fc01d0a}*SharedItemsImports = 5
+		ShalltyUtils.Core\ShalltyUtils.Core.projitems*{2fd419b4-2f40-4ece-b9bb-d1cbf4340d56}*SharedItemsImports = 5
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
