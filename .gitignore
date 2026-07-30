@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # NuGet restore output (PackageReference, no vendored packages folder)
 obj/
+out/

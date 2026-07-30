@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ShalltyUtils
+      - uses: actions/checkout@v4
+        with:
+          repository: IllusionMods/HSPlugins
+          path: HSPlugins
+          fetch-depth: 1
+
+      - uses: actions/setup-dotnet@v4
+
+      - name: Build HSPlugins dependencies
+        working-directory: HSPlugins
+        run: |
+          set -e
+          for g in HS2 KK KKS; do
+            case $g in
+              HS2) pe=HS2PE ;;
+              KK)  pe=KKPE  ;;
+              KKS) pe=KKSPE ;;
+            esac
+            dotnet build Timeline.$g/Timeline.$g.csproj -c Release
+            dotnet build $pe/PoseEditor.$g.csproj -c Release
+            dotnet build NodesConstraints.$g/NodesConstraints.$g.csproj -c Release
+          done
+
+      - name: Build ShalltyUtils
+        working-directory: ShalltyUtils
+        run: dotnet build ShalltyUtils.sln --configuration Release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}_${{ github.sha }}
+          path: ShalltyUtils/bin/out/*.zip
+
+      - name: Release on version change
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        working-directory: ShalltyUtils
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          version=$(cat bin/out/VERSION)
+          if gh release view "v$version" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "v$version already released, nothing to do"
+            exit 0
+          fi
+          gh release create "v$version" bin/out/*.zip \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "ShalltyUtils v$version" \
+            --generate-notes

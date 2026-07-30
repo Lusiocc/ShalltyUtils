@@ -70,4 +70,38 @@
 			<ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)" />
 		</ItemGroup>
 	</Target>
+
+	<UsingTask TaskName="GetFileVersion" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<AssemblyPath ParameterType="System.String" Required="true" />
+			<FileVersion Output="true" ParameterType="System.String" />
+		</ParameterGroup>
+		<Task>
+			<Code Type="Fragment" Language="cs">
+				FileVersion = System.Diagnostics.FileVersionInfo.GetVersionInfo(AssemblyPath).FileVersion;
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="CreateReleaseZip" AfterTargets="Build" Condition="'$(Configuration)' == 'Release'">
+		<GetFileVersion AssemblyPath="$(OutputPath)$(AssemblyName).dll">
+			<Output TaskParameter="FileVersion" PropertyName="FileVersionFromAssembly" />
+		</GetFileVersion>
+
+		<PropertyGroup>
+			<CopyDir>$(OutputPath)..\TEMP_COPY_$(MSBuildProjectName)</CopyDir>
+			<ZipDir>$(OutputPath)..\..\out</ZipDir>
+			<ZipPath>$(ZipDir)\$(AssemblyName)_v$(FileVersionFromAssembly).zip</ZipPath>
+		</PropertyGroup>
+
+		<RemoveDir Directories="$(CopyDir)" />
+		<Copy SourceFiles="$(OutputPath)$(AssemblyName).dll" DestinationFolder="$(CopyDir)\BepInEx\plugins" />
+
+		<MakeDir Directories="$(ZipDir)" />
+		<ZipDirectory SourceDirectory="$(CopyDir)" DestinationFile="$(ZipPath)" Overwrite="true" />
+		<RemoveDir Directories="$(CopyDir)" />
+
+		<WriteLinesToFile File="$(ZipDir)\VERSION" Lines="$(FileVersionFromAssembly)" Overwrite="true" WriteOnlyWhenDifferent="true" />
+		<Message Importance="high" Text="Packaged $(ZipPath)" />
+	</Target>
 </Project>
