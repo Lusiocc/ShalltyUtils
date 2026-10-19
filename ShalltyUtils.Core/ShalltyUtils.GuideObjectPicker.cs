@@ -44,6 +44,20 @@ namespace ShalltyUtils
         public static bool moveTimeline = false;
         public static bool showNodes = true;
 
+        static bool nodesWereVisible;
+
+        static bool NodesVisible => showNodes && goPickerShowNodesConfig.Value && (!goPickerHideWithAxis.Value || Singleton<Studio.Studio>.Instance.workInfo.visibleAxis) && StudioUIVisible();
+
+        static Canvas studioMenuCanvas;
+        static CanvasGroup studioMenuGroup;
+
+        static bool StudioUIVisible()
+        {
+            if (studioMenuCanvas == null) return true;
+
+            return studioMenuCanvas.gameObject.activeInHierarchy && studioMenuCanvas.enabled && (studioMenuGroup == null || studioMenuGroup.alpha > 0f);
+        }
+
         public static List<PickerPage> goPickerPages = new List<PickerPage>();
         public static List<PickerButton> goPickerButtons = new List<PickerButton>();
         private static List<Button> goPickerCurrentButtons = new List<Button>();
@@ -800,7 +814,10 @@ namespace ShalltyUtils
                 nodesLineDictionary.Clear();
                 goPickerNodesLine.points3.Clear();
 
-                if (!goPickerPages.IsNullOrEmpty() && showNodes)
+                if (!NodesVisible)
+                    nodesWereVisible = false;
+
+                if (!goPickerPages.IsNullOrEmpty() && NodesVisible)
                 {
                     for (int i = 0; i < goPickerPages.Count; i++)
                     {
@@ -823,6 +840,12 @@ namespace ShalltyUtils
                     {
                         goPickerNodesLine.active = true;
                         goPickerNodesLine.Draw();
+
+                        if (!nodesWereVisible)
+                        {
+                            nodesWereVisible = true;
+                            UpdateAllColors(false);
+                        }
 
                         int index = 0;
                         if (goPickerNodesLine.Selected(Input.mousePosition, out index))
@@ -1506,7 +1529,7 @@ namespace ShalltyUtils
                     picker.UpdateColor();
             }
 
-            if (goPickerNodesLine != null && nodesLineDictionary != null && showNodes)
+            if (goPickerNodesLine != null && nodesLineDictionary != null && NodesVisible)
             {
                 goPickerNodesLine.SetWidth(goPickerNodeSize.Value);
 
@@ -2587,6 +2610,14 @@ namespace ShalltyUtils
                     //__instance._nothingText.gameObject.SetActive(false);
                     __instance._controls.gameObject.SetActive(true);
                 }
+            }
+
+            [HarmonyPostfix, HarmonyPatch(typeof(StudioScene), "Start")]
+            static void StudioSceneStartPostfix(StudioScene __instance)
+            {
+                Traverse drawInfo = Traverse.Create(Traverse.Create(__instance).Field("drawInfo").GetValue());
+                studioMenuCanvas = drawInfo.Field("canvasMainMenu").GetValue<Canvas>();
+                studioMenuGroup = drawInfo.Field("canvasMainMenuG").GetValue<CanvasGroup>();
             }
 
             [HarmonyPostfix, HarmonyPatch(typeof(StudioScene), nameof(StudioScene.OnClickAxis))]

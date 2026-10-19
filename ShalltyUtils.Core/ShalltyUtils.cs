@@ -100,6 +100,7 @@ namespace ShalltyUtils
         public static ConfigEntry<float> goPickerGridScale;
         public static ConfigEntry<float> goPickerNodeSize;
         public static ConfigEntry<bool> goPickerHideWithAxis;
+        public static ConfigEntry<bool> goPickerShowNodesConfig;
         public static ConfigEntry<bool> goPickerEnableTooltip;
         public static ConfigEntry<bool> goPickerShowPageNameTooltip;
 
@@ -226,6 +227,8 @@ namespace ShalltyUtils
             goPickerShowPageNameTooltip = Config.Bind("GuideObject Picker", "Display Page in Tooltip", true, "Enable to display the page name in tooltips for GuideObject Nodes");
 
             goPickerHideWithAxis = Config.Bind("GuideObject Picker", "Link Nodes with Axis Button", true, "Enable to show/hide the GuideObject Nodes with the default studio Axis Button.");
+
+            goPickerShowNodesConfig = Config.Bind("GuideObject Picker", "Show Nodes", true, "Show the GuideObject Picker nodes in the scene. Turn off to hide them.");
 
             goPickerNodeTexture = Config.Bind("GuideObject Picker", "Node Texture Path", "", "Add a .PNG image path to change the texture of the nodes in the GuideObject Picker");
             goPickerNodeTexture.SettingChanged += (v, e) => GuideObjectPicker.LoadNodesTexture();
