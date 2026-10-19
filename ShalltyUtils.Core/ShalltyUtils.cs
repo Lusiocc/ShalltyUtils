@@ -58,7 +58,7 @@ namespace ShalltyUtils
         public const string GameName = "Honey Select 2";
         public const string StudioProcessName = "StudioNEOV2";
 #endif
-        public const string Version = "1.3.1";
+        public const string Version = "1.3.2";
         public const int _uniqueId = ('S' << 24) | ('U' << 16) | ('T' << 8);
         internal static new ManualLogSource Logger;
         internal Dictionary<Transform, GuideObject> _allGuideObjects;

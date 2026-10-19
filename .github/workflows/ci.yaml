@@ -27,13 +27,8 @@ jobs:
         run: |
           set -e
           for g in HS2 KK KKS; do
-            case $g in
-              HS2) pe=HS2PE ;;
-              KK)  pe=KKPE  ;;
-              KKS) pe=KKSPE ;;
-            esac
             dotnet build Timeline.$g/Timeline.$g.csproj -c Release
-            dotnet build $pe/PoseEditor.$g.csproj -c Release
+            dotnet build PoseEditor.$g/PoseEditor.$g.csproj -c Release
             dotnet build NodesConstraints.$g/NodesConstraints.$g.csproj -c Release
           done
 
